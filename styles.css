@@ -69,13 +69,15 @@ body {
     border: 2px solid rgba(255,255,255,0.8);
     position: relative;
     z-index: 10;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .nav-btn {
     background: transparent;
     border: none;
-    padding: 12px 30px;
-    font-size: 1.6rem;
+    padding: 12px 25px;
+    font-size: 1.5rem;
     font-weight: 700;
     border-radius: 40px;
     cursor: pointer;
@@ -83,7 +85,7 @@ body {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .nav-btn.active {
@@ -98,27 +100,20 @@ body {
     transform: translateY(-2px);
 }
 
-/* Alphabet Grid */
-.alphabet-grid, .poems-grid {
+/* Grids */
+.grid-container {
     display: grid;
     gap: 15px;
     margin-bottom: 30px;
     transition: all 0.3s ease;
 }
 
-.alphabet-grid {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-}
+#alphabet-grid { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
+#poems-grid, #stories-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 
-.poems-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
+.grid-container.hidden { display: none; }
 
-.alphabet-grid.hidden, .poems-grid.hidden {
-    display: none;
-}
-
-.alphabet-btn, .poem-btn {
+.item-btn {
     background: white;
     border: none;
     border-radius: 20px;
@@ -127,13 +122,19 @@ body {
     transition: all 0.2s ease;
 }
 
+.item-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: var(--hover-shadow);
+}
+.item-btn:active { transform: scale(0.95); }
+
 .alphabet-btn {
     font-size: 2.5rem;
     font-weight: 800;
     padding: 15px 0;
 }
 
-.poem-btn {
+.content-btn {
     padding: 20px;
     font-size: 1.5rem;
     font-weight: 600;
@@ -143,17 +144,8 @@ body {
     gap: 10px;
 }
 
-.poem-btn-emoji {
+.content-emoji {
     font-size: 3rem;
-}
-
-.alphabet-btn:hover, .poem-btn:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: var(--hover-shadow);
-}
-
-.alphabet-btn:active, .poem-btn:active {
-    transform: scale(0.95);
 }
 
 /* Display Area (Modal/Card) */
@@ -178,7 +170,7 @@ body {
     pointer-events: none;
 }
 
-#alphabet-view.hidden, #poem-view.hidden {
+#alphabet-view.hidden, #poem-view.hidden, #story-view.hidden {
     display: none;
 }
 
@@ -220,9 +212,7 @@ body {
     transition: background 0.2s;
 }
 
-.close-btn:hover {
-    background: #ff4757;
-}
+.close-btn:hover { background: #ff4757; }
 
 .emoji-container {
     font-size: 6rem;
@@ -231,7 +221,7 @@ body {
 }
 
 .english-word {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: #1dd1a1;
     margin-bottom: 5px;
     font-family: 'Fredoka', sans-serif;
@@ -254,7 +244,7 @@ body {
     border-left: 5px solid #ff9ff3;
 }
 
-.poem-text-container {
+.text-container {
     padding: 20px;
     background: #f1f2f6;
     border-radius: 15px;
@@ -262,8 +252,8 @@ body {
     margin-top: 15px;
 }
 
-.poem-lines {
-    font-size: 1.5rem;
+.lines {
+    font-size: 1.4rem;
     color: #333;
     line-height: 1.6;
     white-space: pre-line;
@@ -301,16 +291,11 @@ footer {
 .color-5 { color: #ff6b81; }
 
 @media (max-width: 600px) {
-    .alphabet-grid {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-        gap: 10px;
-    }
-    .alphabet-btn {
-        font-size: 2rem;
-        padding: 10px 0;
-    }
+    #alphabet-grid { grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); }
+    .alphabet-btn { font-size: 2rem; padding: 10px 0; }
     .welcome-header h1 { font-size: 2.2rem; }
     .welcome-header p { font-size: 1.2rem; }
-    .english-word { font-size: 2.2rem; }
-    .poem-lines { font-size: 1.2rem; }
+    .nav-btn { padding: 10px 15px; font-size: 1.2rem; }
+    .english-word { font-size: 2rem; }
+    .lines { font-size: 1.2rem; }
 }
