@@ -30,167 +30,197 @@ const alphabetData = {
 
 // Poems Data Dictionary
 const poemsData = [
-    { title: "Twinkle Twinkle", emoji: "⭐", lines: "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky." },
-    { title: "Baa Baa Black Sheep", emoji: "🐑", lines: "Baa, baa, black sheep,\nHave you any wool?\nYes, sir, yes, sir,\nThree bags full!" },
-    { title: "Johnny Johnny", emoji: "👶", lines: "Johnny, Johnny.\nYes, Papa?\nEating sugar?\nNo, Papa.\nTelling lies?\nNo, Papa.\nOpen your mouth.\nHa-ha-ha!" },
-    { title: "Humpty Dumpty", emoji: "🥚", lines: "Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall;\nAll the king's horses and all the king's men\nCouldn't put Humpty together again." },
-    { title: "Rain Rain Go Away", emoji: "🌧️", lines: "Rain, rain, go away,\nCome again another day;\nLittle Johnny wants to play,\nRain, rain, go away." },
-    { title: "Jack and Jill", emoji: "🪣", lines: "Jack and Jill went up the hill,\nTo fetch a pail of water.\nJack fell down and broke his crown,\nAnd Jill came tumbling after." }
-];
-
-// Stories Data Dictionary
-const storiesData = [
-    { title: "The Thirsty Crow", emoji: "🐦", lines: "A crow was very thirsty.\nHe saw a pot with a little water.\nHe dropped stones into the pot.\nThe water came up.\nHe drank the water and flew away happily." },
-    { title: "Lion & Mouse", emoji: "🦁", lines: "A lion was sleeping.\nA little mouse woke him up.\nThe lion let the mouse go.\nLater, the lion was caught in a net.\nThe mouse cut the net and saved the lion." },
-    { title: "Fox & Grapes", emoji: "🦊", lines: "A fox saw a bunch of grapes.\nHe jumped to get them but could not reach.\nHe said, 'The grapes are sour!'\nAnd he walked away." },
-    { title: "Hare & Tortoise", emoji: "🐢", lines: "A hare and a tortoise had a race.\nThe hare ran fast and slept under a tree.\nThe tortoise walked slowly but steadily.\nHe won the race." }
+    {
+        title: "Twinkle Twinkle",
+        emoji: "⭐",
+        lines: "Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky."
+    },
+    {
+        title: "Baa Baa Black Sheep",
+        emoji: "🐑",
+        lines: "Baa, baa, black sheep,\nHave you any wool?\nYes, sir, yes, sir,\nThree bags full!"
+    },
+    {
+        title: "Johnny Johnny",
+        emoji: "👶",
+        lines: "Johnny, Johnny.\nYes, Papa?\nEating sugar?\nNo, Papa.\nTelling lies?\nNo, Papa.\nOpen your mouth.\nHa-ha-ha!"
+    },
+    {
+        title: "Humpty Dumpty",
+        emoji: "🥚",
+        lines: "Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall;\nAll the king's horses and all the king's men\nCouldn't put Humpty together again."
+    },
+    {
+        title: "Rain Rain Go Away",
+        emoji: "🌧️",
+        lines: "Rain, rain, go away,\nCome again another day;\nLittle Johnny wants to play,\nRain, rain, go away."
+    },
+    {
+        title: "Jack and Jill",
+        emoji: "🪣",
+        lines: "Jack and Jill went up the hill,\nTo fetch a pail of water.\nJack fell down and broke his crown,\nAnd Jill came tumbling after."
+    }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation
     const tabAlphabet = document.getElementById('tab-alphabet');
     const tabPoems = document.getElementById('tab-poems');
-    const tabStories = document.getElementById('tab-stories');
-    
     const alphabetGrid = document.getElementById('alphabet-grid');
     const poemsGrid = document.getElementById('poems-grid');
-    const storiesGrid = document.getElementById('stories-grid');
     
     // Modal
     const displayArea = document.getElementById('display-area');
     const closeBtn = document.getElementById('close-btn');
     
-    // Views
+    // Alphabet View
     const alphabetView = document.getElementById('alphabet-view');
-    const poemView = document.getElementById('poem-view');
-    const storyView = document.getElementById('story-view');
+    const displayEmoji = document.getElementById('display-emoji');
+    const displayWord = document.getElementById('display-word');
+    const displayHindi = document.getElementById('display-hindi');
+    const displaySentence = document.getElementById('display-sentence');
 
-    let currentMode = 'alphabet'; // 'alphabet', 'poems', 'stories'
+    // Poem View
+    const poemView = document.getElementById('poem-view');
+    const poemEmoji = document.getElementById('poem-emoji');
+    const poemTitle = document.getElementById('poem-title');
+    const poemLines = document.getElementById('poem-lines');
+
+    let currentMode = 'alphabet'; // 'alphabet' or 'poems'
 
     // Tab Switching Logic
-    function switchTab(mode) {
-        currentMode = mode;
-        window.speechSynthesis.cancel();
-        
-        tabAlphabet.classList.remove('active');
+    tabAlphabet.addEventListener('click', () => {
+        currentMode = 'alphabet';
+        tabAlphabet.classList.add('active');
         tabPoems.classList.remove('active');
-        tabStories.classList.remove('active');
-        
-        alphabetGrid.classList.add('hidden');
+        alphabetGrid.classList.remove('hidden');
         poemsGrid.classList.add('hidden');
-        storiesGrid.classList.add('hidden');
+        window.speechSynthesis.cancel();
+    });
 
-        if (mode === 'alphabet') {
-            tabAlphabet.classList.add('active');
-            alphabetGrid.classList.remove('hidden');
-        } else if (mode === 'poems') {
-            tabPoems.classList.add('active');
-            poemsGrid.classList.remove('hidden');
-        } else if (mode === 'stories') {
-            tabStories.classList.add('active');
-            storiesGrid.classList.remove('hidden');
-        }
-    }
-
-    tabAlphabet.addEventListener('click', () => switchTab('alphabet'));
-    tabPoems.addEventListener('click', () => switchTab('poems'));
-    tabStories.addEventListener('click', () => switchTab('stories'));
+    tabPoems.addEventListener('click', () => {
+        currentMode = 'poems';
+        tabPoems.classList.add('active');
+        tabAlphabet.classList.remove('active');
+        poemsGrid.classList.remove('hidden');
+        alphabetGrid.classList.add('hidden');
+        window.speechSynthesis.cancel();
+    });
 
     // Generate A-Z Buttons
-    Object.keys(alphabetData).forEach((letter, index) => {
+    const letters = Object.keys(alphabetData);
+    letters.forEach((letter, index) => {
         const btn = document.createElement('button');
-        btn.classList.add('item-btn', 'alphabet-btn', `color-${index % 6}`);
+        btn.classList.add('alphabet-btn');
+        btn.classList.add(`color-${index % 6}`);
         btn.textContent = letter;
+        
         btn.addEventListener('click', () => showLetterDetails(letter));
+        
         alphabetGrid.appendChild(btn);
     });
 
     // Generate Poem Buttons
     poemsData.forEach((poem, index) => {
         const btn = document.createElement('button');
-        btn.classList.add('item-btn', 'content-btn', `color-${index % 6}`);
-        btn.innerHTML = `<span class="content-emoji">${poem.emoji}</span><span>${poem.title}</span>`;
-        btn.addEventListener('click', () => showContentDetails(poemView, poem, 'poem'));
-        poemsGrid.appendChild(btn);
-    });
+        btn.classList.add('poem-btn');
+        btn.classList.add(`color-${index % 6}`);
+        
+        const emojiSpan = document.createElement('span');
+        emojiSpan.classList.add('poem-btn-emoji');
+        emojiSpan.textContent = poem.emoji;
+        
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = poem.title;
 
-    // Generate Story Buttons
-    storiesData.forEach((story, index) => {
-        const btn = document.createElement('button');
-        btn.classList.add('item-btn', 'content-btn', `color-${index % 6}`);
-        btn.innerHTML = `<span class="content-emoji">${story.emoji}</span><span>${story.title}</span>`;
-        btn.addEventListener('click', () => showContentDetails(storyView, story, 'story'));
-        storiesGrid.appendChild(btn);
+        btn.appendChild(emojiSpan);
+        btn.appendChild(titleSpan);
+        
+        btn.addEventListener('click', () => showPoemDetails(poem));
+        
+        poemsGrid.appendChild(btn);
     });
 
     // Function to speak text
     function speakText(text, lang = 'hi-IN') {
-        window.speechSynthesis.cancel();
+        window.speechSynthesis.cancel(); // Stop anything currently playing
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang; 
-        utterance.rate = 0.85; 
+        utterance.rate = 0.85; // Slightly slower
         window.speechSynthesis.speak(utterance);
     }
 
     // Function to show Alphabet Details
     function showLetterDetails(letter) {
-        if (!alphabetData[letter]) return;
-        const data = alphabetData[letter];
-        
-        document.getElementById('display-emoji').textContent = data.emoji;
-        document.getElementById('display-word').textContent = `${letter} for ${data.word}`;
-        document.getElementById('display-hindi').textContent = data.hindi;
-        document.getElementById('display-sentence').textContent = data.sentence;
+        letter = letter.toUpperCase();
+        if (alphabetData[letter]) {
+            const data = alphabetData[letter];
+            displayEmoji.textContent = data.emoji;
+            displayWord.textContent = `${letter} for ${data.word}`;
+            displayHindi.textContent = data.hindi;
+            displaySentence.textContent = data.sentence;
 
-        alphabetView.classList.remove('hidden');
-        poemView.classList.add('hidden');
-        storyView.classList.add('hidden');
+            alphabetView.classList.remove('hidden');
+            poemView.classList.add('hidden');
 
-        triggerPopAnimation('display-emoji');
-        displayArea.classList.remove('hidden');
-        speakText(`${letter} for ${data.word}. ${data.hindi}. ${data.sentence}`, 'hi-IN');
+            // Re-trigger pop animation
+            displayEmoji.style.animation = 'none';
+            setTimeout(() => {
+                displayEmoji.style.animation = 'popIn 0.5s ease';
+            }, 10);
+
+            displayArea.classList.remove('hidden');
+
+            // Speak the text
+            speakText(`${letter} for ${data.word}. ${data.hindi}. ${data.sentence}`, 'hi-IN');
+        }
     }
 
-    // Function to show Poem/Story Details
-    function showContentDetails(viewElem, data, prefix) {
-        document.getElementById(`${prefix}-emoji`).textContent = data.emoji;
-        document.getElementById(`${prefix}-title`).textContent = data.title;
-        document.getElementById(`${prefix}-lines`).textContent = data.lines;
+    // Function to show Poem Details
+    function showPoemDetails(poem) {
+        poemEmoji.textContent = poem.emoji;
+        poemTitle.textContent = poem.title;
+        poemLines.textContent = poem.lines;
 
+        poemView.classList.remove('hidden');
         alphabetView.classList.add('hidden');
-        poemView.classList.add('hidden');
-        storyView.classList.add('hidden');
-        viewElem.classList.remove('hidden');
 
-        triggerPopAnimation(`${prefix}-emoji`);
+        // Re-trigger pop animation
+        poemEmoji.style.animation = 'none';
+        setTimeout(() => {
+            poemEmoji.style.animation = 'popIn 0.5s ease';
+        }, 10);
+
         displayArea.classList.remove('hidden');
-        speakText(`${data.title}. ${data.lines}`, 'en-US');
-    }
 
-    function triggerPopAnimation(id) {
-        const el = document.getElementById(id);
-        el.style.animation = 'none';
-        setTimeout(() => el.style.animation = 'popIn 0.5s ease', 10);
+        // Speak the poem text in English
+        speakText(poem.title + ". " + poem.lines, 'en-US');
     }
 
     // Close Modal
-    function closeModal() {
+    closeBtn.addEventListener('click', () => {
         displayArea.classList.add('hidden');
         window.speechSynthesis.cancel();
-    }
-
-    closeBtn.addEventListener('click', closeModal);
-    displayArea.addEventListener('click', (e) => {
-        if (e.target === displayArea) closeModal();
     });
 
-    // Keyboard events
+    // Close on clicking outside the card
+    displayArea.addEventListener('click', (e) => {
+        if (e.target === displayArea) {
+            displayArea.classList.add('hidden');
+            window.speechSynthesis.cancel();
+        }
+    });
+
+    // Listen to Keyboard events
     document.addEventListener('keydown', (e) => {
         if (displayArea.classList.contains('hidden') && currentMode === 'alphabet') {
             const key = e.key.toUpperCase();
-            if (alphabetData[key]) showLetterDetails(key);
+            if (alphabetData[key]) {
+                showLetterDetails(key);
+            }
         } else if (e.key === 'Escape') {
-            closeModal();
+            displayArea.classList.add('hidden');
+            window.speechSynthesis.cancel();
         }
     });
 });
